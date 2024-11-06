@@ -6,13 +6,10 @@ import com.tia102g1.member.dto.*;
 import com.tia102g1.member.model.Member;
 import com.tia102g1.role.dao.RoleDao;
 import com.tia102g1.role.model.Role;
-import org.apache.bcel.generic.RETURN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -138,8 +133,6 @@ public class MemberServiceImpl implements MemberService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "信箱已經被註冊，請更換信箱");
             }
         }
-
-
         //如果有設置黑名單的話，要將停權日期更新
         if (memberUpdateDto.getStatus().getStatus() == AccountStatus.BLOCKED.getStatus()) {
             Timestamp now = new Timestamp(System.currentTimeMillis());

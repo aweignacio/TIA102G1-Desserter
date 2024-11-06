@@ -105,34 +105,33 @@
 <div th:replace="~{frontendapp/components/common :: import-in-the-end}"></div>
 
 <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
+    $(document).ready(function() {
         // 頁面初始加載時設置縣市和鄉鎮市區的預設選項
-        var countySelect = document.getElementById('county-select');
-        var districtSelect = document.getElementById('district-select');
+        var $countySelect = $('#county-select');
+        var $districtSelect = $('#district-select');
 
         // 設置縣市的預設選項
-        countySelect.selectedIndex = 0;
+        $countySelect.prop('selectedIndex', 0);
         // 設置鄉鎮市區的預設選項
-        districtSelect.innerHTML = '<option value="" disabled selected>選擇鄉鎮市區</option>';
+        $districtSelect.html('<option value="" disabled selected>選擇鄉鎮市區</option>');
     });
 
     function loadDistricts() {
-        var cntCode = document.getElementById('county-select').value;
-        fetch('/api/districts?cntCode=' + cntCode)
-            .then(response => response.json())
-            .then(data => {
-                var districtSelect = document.getElementById('district-select');
-                // 清空現有選項並設置預設選項
-                districtSelect.innerHTML = '<option value="" disabled selected>選擇鄉鎮市區</option>';
-                data.forEach(function (district) {
-                    var option = document.createElement('option');
-                    option.value = district.distCode;
-                    option.text = district.distName;
-                    districtSelect.appendChild(option);
-                });
+        var cntCode = $('#county-select').val();
+        $.getJSON('/api/districts', { cntCode: cntCode }, function(data) {
+            var $districtSelect = $('#district-select');
+            // 清空現有選項並設置預設選項
+            $districtSelect.html('<option value="" disabled selected>選擇鄉鎮市區</option>');
+            $.each(data, function(index, district) {
+                $districtSelect.append($('<option>', {
+                    value: district.distCode,
+                    text: district.distName
+                }));
             });
+        });
     }
 </script>
+
 
 </body>
 </html>

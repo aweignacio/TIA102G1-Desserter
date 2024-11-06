@@ -62,7 +62,7 @@ public class MemberController {
             @RequestParam(defaultValue = "MEMBERID") String orderBy,
             @RequestParam(defaultValue = "asc") String sort,
             //分頁Pagination
-            @RequestParam(defaultValue = "3") @Max(1000) @Min(0) Integer limit,
+            @RequestParam(defaultValue = "10") @Max(1000) @Min(0) Integer limit,
             @RequestParam(defaultValue = "0") @Min(0) Integer offset
     ) {
         //直接新增一個memberQueryParams，裡面放查詢條件的參數。以後要新增查詢條件就直接在這裏面新增就好

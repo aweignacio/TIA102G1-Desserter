@@ -5,11 +5,9 @@ import com.tia102g1.socialmember.service.MyOidcUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -35,8 +33,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     // 設定密碼的加密機制為 BCrypt 方式
     public PasswordEncoder passwordEncoder() {
         //測試環境密碼不加密
-        return NoOpPasswordEncoder.getInstance();
-//        return new BCryptPasswordEncoder();
+//        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -62,6 +60,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .rememberMe()
+                //.tokenValiditySeconds(1209600); // 設定記住我的有效期（例如 1週，604800 秒）
                 .userDetailsService(myUserDetailsService)
                 .and()
 //                //OAuth2.0授權認證方法
